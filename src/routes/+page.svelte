@@ -1,6 +1,16 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	// @ts-nocheck
 
-<p class="hover:text-cyan-300 peer-hover:underline">test</p>
+	import Navbar from "$lib/component/navbar.svelte";
+</script>
 
-<button class="btn">DaisyUI</button>
+<Navbar />
+<div class="hero min-h-screen bg-base-200 max-h-fit">
+	<div class="hero-content text-center">
+		<div class="max-w-md">
+			<h1 class="text-5xl font-bold">Witaj!</h1>
+			<p class="py-6">Na naszej stronie możesz znaleźć złotą rączkę w minuty!</p>
+			<a href="/categories"><button class="btn btn-primary">Zacznij szukać</button></a>
+		</div>
+	</div>
+</div>
