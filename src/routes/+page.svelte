@@ -5,7 +5,7 @@
 </script>
 
 <Navbar />
-<div class="hero min-h-screen bg-base-200 max-h-fit">
+<div class="hero h-screen bg-base-200 overscroll-contain">
 	<div class="hero-content text-center">
 		<div class="max-w-md">
 			<h1 class="text-5xl font-bold">Witaj!</h1>

@@ -67,8 +67,8 @@
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<a
 			href="/"
-			class="btn btn-ghost normal-case md:text-3xl sm:text-2xl font-bold mr-8 md:mr-0"
-			style="font-family: 'Montserrat Subrayada', sans-serif;">SZPENIO</a
+			class="btn btn-ghost normal-case md:text-3xl text-xs font-bold mr-8 md:mr-0"
+			style="font-family: 'Montserrat Subrayada', sans-serif;">HANDYMANS.PL</a
 		>
 	</div>
 	<div class="navbar-end">
