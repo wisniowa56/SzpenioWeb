@@ -68,7 +68,7 @@
 	<table class="table max-w-[90%]">
 		<!-- head -->
 		<thead>
-			<tr>
+			<tr class="text-center">
 				<th>Osoba</th>
 				<th>Firma</th>
 				<th>Opis</th>
@@ -81,6 +81,7 @@
 				<h2>Loading...</h2>
 			{:then data}
 				{#each data as service}
+					<br />
 					<tr class="min-h-xl">
 						<td class="rounded-l-lg">
 							<div class="flex items-center space-x-3">
@@ -147,7 +148,7 @@
 		</tbody>
 		<!-- foot -->
 		<tfoot>
-			<tr>
+			<tr class="text-center">
 				<th>Imię</th>
 				<th>Firma</th>
 				<th>Opis</th>
