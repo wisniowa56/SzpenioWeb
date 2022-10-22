@@ -1,3 +1,14 @@
+<script>
+	let Logged = true;
+
+	function logOut() {
+		Logged = false;
+	}
+	function logIn() {
+		Logged = true;
+	}
+</script>
+
 <div
 	class="navbar 3xl:max-w-[1920px] lg:mx-2 sm:mx-0 fixed md:top-2 z-50 lg:max-w-[99%] md:max-w-full bg-white/60 backdrop-blur md:rounded-lg drop-shadow-md self-center"
 >
@@ -67,12 +78,37 @@
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<a
 			href="/"
-			class="btn btn-ghost normal-case md:text-3xl text-xs font-bold mr-8 md:mr-0"
+			class="btn btn-ghost normal-case md:text-3xl text-lg font-bold mr-8 md:mr-0"
 			style="font-family: 'Montserrat Subrayada', sans-serif;">HANDYMANS.PL</a
 		>
 	</div>
-	<div class="navbar-end">
-		<a href="/Register"><button class="btn btn-ghost">Zarejestruj</button></a>
-		<a href="/login"><button class="btn btn-ghost">Zaloguj </button></a>
-	</div>
+	{#if !Logged}
+		<div class="navbar-end">
+			<a href="/Login"><button class="btn btn-ghost text-lg" on:click={logIn}>Zaloguj</button></a>
+		</div>
+	{:else}
+		<div class="navbar-end">
+			<div class="dropdown dropdown-end">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<label
+					tabindex="0"
+					class="btn btn-circle bg-neutral-focus text-neutral-content rounded-full w-12"
+				>
+					<span>LU</span>
+				</label>
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<ul
+					tabindex="0"
+					class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+				>
+					<!-- svelte-ignore a11y-missing-attribute -->
+					<li><a href="/zlecenia">Moje zlecenia</a></li>
+					<li><a>Ustawienia</a></li>
+					<li><a href="/profile">Mój profil</a></li>
+					<li><button class="btn btn-neutral" on:click={logOut}>Wyloguj</button></li>
+				</ul>
+			</div>
+		</div>
+	{/if}
 </div>
