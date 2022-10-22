@@ -1,47 +1,13 @@
+<script lang="ts">
+	import { ValidCategories } from "$lib/constants";
+	import { capitalizeFirst } from "$lib/utils";
+</script>
+
 <div
 	class="navbar 3xl:max-w-[1920px] lg:mx-2 sm:mx-0 fixed md:left-0 md:top-2 z-50 lg:max-w-[-webkit-fill-available] md:max-w-full bg-white/60 backdrop-blur md:rounded-lg drop-shadow-md self-center"
 >
 	<div class="navbar-start">
-		<div class="dropdown">
-			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<label tabindex="0" class="btn btn-ghost btn-circle ">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M4 6h16M4 12h16M4 18h7"
-					/></svg
-				>
-			</label>
-			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<ul
-				tabindex="0"
-				class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-			>
-				<!-- svelte-ignore a11y-missing-attribute -->
-				<li><a href="/categories/budowlanka">Budowlanka</a></li>
-				<li><a>Copywriter</a></li>
-				<li><a>Dekarz</a></li>
-				<li><a>Elektryk</a></li>
-				<li><a>Fotograf</a></li>
-				<li><a>Fryzjer</a></li>
-				<li><a>Grafik</a></li>
-				<li><a>Groomer</a></li>
-				<li><a>Hydraulik</a></li>
-				<li><a>Kierowca</a></li>
-				<li><a>Kosmetyczka</a></li>
-				<li><a>Księgowa</a></li>
-				<li><a>Mechanik</a></li>
-				<li><a>Nauczyciel</a></li>
-			</ul>
-		</div>
+		<a class="btn" href="/services">Przeglądaj</a>
 		<div class="form-control ml-2 hidden md:flex">
 			<div class="input-group">
 				<input type="text" placeholder="Szukaj…" class="input input-bordered" />
