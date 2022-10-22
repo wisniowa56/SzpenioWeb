@@ -1,8 +1,3 @@
-<script lang="ts">
-	import { ValidCategories } from "$lib/constants";
-	import { capitalizeFirst } from "$lib/utils";
-</script>
-
 <div
 	class="navbar 3xl:max-w-[1920px] lg:mx-2 sm:mx-0 fixed md:left-0 md:top-2 z-50 lg:max-w-[-webkit-fill-available] md:max-w-full bg-white/60 backdrop-blur md:rounded-lg drop-shadow-md self-center"
 >

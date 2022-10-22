@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Navbar from "$lib/component/navbar.svelte";
+	import Footer from "$lib/component/footer.svelte";
 	import "../app.css";
 </script>
 
-<div class="">
-	<Navbar />
+<Navbar />
+<div class="px-5">
+	<slot />
 </div>
-<slot />
+<Footer />
