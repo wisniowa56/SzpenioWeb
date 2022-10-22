@@ -1,15 +1,27 @@
 <script lang="ts">
-	import type { Data } from "./data";
-	import { ValidCategories } from "$lib/constants"
+	import { ValidCategories } from "$lib/constants";
+	import type Service from "$lib/server/models/service";
 	import { capitalizeFirst } from "$lib/utils";
+	import type { PageData } from "./$types";
 
-	export let data: Data;
+	export let data: PageData;
 
 	let chosenCategory: string = data.category;
 
 	const handle = (c: string) => {
 		chosenCategory = c;
-	}
+	};
+
+	const getData = async (category: string): Promise<Service[]> => {
+		const response = await fetch(`/api/services/${category}`);
+		const result = await response.json();
+		return result;
+	};
+
+	const getRatingColor = (rating: number, star: number) => {
+		if (rating >= star) return "bg-orange-400";
+		return "bg-gray-200";
+	};
 </script>
 
 <svelte:head>
@@ -37,7 +49,9 @@
 				<ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
 					{#each ValidCategories as category}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<li on:click={() => handle(category.name)}><a href="/services?category={category.name}">{capitalizeFirst(category.name)}</a></li>
+						<li on:click={() => handle(category.name)}>
+							<a href="/services?category={category.name}">{capitalizeFirst(category.name)}</a>
+						</li>
 					{/each}
 				</ul>
 			</div>
@@ -55,7 +69,7 @@
 		<!-- head -->
 		<thead>
 			<tr>
-				<th>Imię</th>
+				<th>Osoba</th>
 				<th>Firma</th>
 				<th>Opis</th>
 				<th>Ocena</th>
@@ -63,385 +77,73 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- row 1 -->
-			<tr class="min-h-xl">
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
+			{#await getData(chosenCategory)}
+				<h2>Loading...</h2>
+			{:then data}
+				{#each data as service}
+					<tr class="min-h-xl">
+						<td class="rounded-l-lg">
+							<div class="flex items-center space-x-3">
+								<div class="avatar">
+									<div class="mask mask-squircle w-12 h-12">
+										<img src={service.avatarUrl} alt="UserImage" />
+									</div>
+								</div>
+								<div>
+									<div class="font-bold">{service.personName}</div>
+									<span class="badge badge-ghost badge-sm">{service.personPosition}</span>
+								</div>
 							</div>
-						</div>
-						<div>
-							<div class="font-bold">Hart Hagerty</div>
-							<div class="text-sm opacity-50">Warszawa ul.Wisniowa</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Zemlak, Daniel and Leannon
-					<br />
-					<span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input
-							type="radio"
-							name="rating-1"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<!-- row 2 -->
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
+						</td>
+						<td>
+							{#if service.companyName}
+								{service.companyName}
+								{#if service.companyAddress}
+									<br />
+									<div class="text-sm opacity-50">{service.companyAddress}</div>
+								{/if}
+							{:else}
+								<p>Osoba fizyczna</p>
+							{/if}
+						</td>
+						<td class="text-justify truncate max-w-md break-normal">{service.description}</td>
+						<td>
+							<div class="rating">
+								<input
+									type="radio"
+									class="mask mask-star-2 {getRatingColor(service.rating, 1)}"
+									disabled
+								/>
+								<input
+									type="radio"
+									class="mask mask-star-2 {getRatingColor(service.rating, 2)}"
+									disabled
+								/>
+								<input
+									type="radio"
+									class="mask mask-star-2 {getRatingColor(service.rating, 3)}"
+									disabled
+								/>
+								<input
+									type="radio"
+									class="mask mask-star-2 {getRatingColor(service.rating, 4)}"
+									disabled
+								/>
+								<input
+									type="radio"
+									class="mask mask-star-2 {getRatingColor(service.rating, 5)}"
+									disabled
+								/>
 							</div>
-						</div>
-						<div>
-							<div class="font-bold">Brice Swyre</div>
-							<div class="text-sm opacity-50">Warszawa ul.Choża</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Carroll Group
-					<br />
-					<span class="badge badge-ghost badge-sm">Tax Accountant</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-2"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<!-- row 3 -->
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Marjy Ferencz</div>
-							<div class="text-sm opacity-50">Warszawa ul.Fabryczna</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Rowe-Schoen
-					<br />
-					<span class="badge badge-ghost badge-sm">Office Assistant I</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-3"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<!-- row 4 -->
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Yancy Tear</div>
-							<div class="text-sm opacity-50">Warszawa ul.Marszałkowska</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Wyman-Ledner
-					<br />
-					<span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-4" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-4" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-4" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-4" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-4"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Yancy Tear</div>
-							<div class="text-sm opacity-50">Warszawa ul.Marszałkowska</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Wyman-Ledner
-					<br />
-					<span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-5" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-5" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-5" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-5" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-5"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Yancy Tear</div>
-							<div class="text-sm opacity-50">Warszawa ul.Marszałkowska</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Wyman-Ledner
-					<br />
-					<span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-6"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Yancy Tear</div>
-							<div class="text-sm opacity-50">Warszawa ul.Marszałkowska</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Wyman-Ledner
-					<br />
-					<span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-7"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
-			<br />
-			<tr>
-				<td class="rounded-l-lg">
-					<div class="flex items-center space-x-3">
-						<div class="avatar">
-							<div class="mask mask-squircle w-12 h-12">
-								<img src="https://placeimg.com/400/225/arch" alt="UserImage" />
-							</div>
-						</div>
-						<div>
-							<div class="font-bold">Yancy Tear</div>
-							<div class="text-sm opacity-50">Warszawa ul.Marszałkowska</div>
-						</div>
-					</div>
-				</td>
-				<td>
-					Wyman-Ledner
-					<br />
-					<span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-				</td>
-				<td class="text-justify truncate max-w-md break-normal"
-					>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien
-					egestas tincidunt. Curabitur ullamcorper felis quam, a semper felis sollicitudin at.
-					Mauris fringilla mauris dolor, id consequat metus gravida eget. Lorem ipsum dolor sit
-					amet, consectetur adipiscing elit. Aenean hendrerit ipsum et sapien egestas tincidunt.
-					Curabitur ullamcorper felis quam, a semper felis sollicitudin at. Mauris fringilla mauris
-					dolor, id consequat metus gravida eget.</td
-				>
-				<td>
-					<div class="rating">
-						<input type="radio" name="rating-8" class="mask mask-star-2 bg-orange-400" disabled />
-						<input
-							type="radio"
-							name="rating-8"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-							checked
-						/>
-						<input type="radio" name="rating-8" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-8" class="mask mask-star-2 bg-orange-400" disabled />
-						<input type="radio" name="rating-8" class="mask mask-star-2 bg-orange-400" disabled />
-					</div></td
-				>
-				<th class="rounded-r-lg">
-					<button class="btn btn-primary">Umów się</button>
-				</th>
-			</tr>
+						</td>
+						<th class="rounded-r-lg">
+							<a href="/services/{service.id}" class="btn btn-primary">Skontaktuj się</a>
+						</th>
+					</tr>
+				{/each}
+			{:catch err}
+				<p>Error: {err}</p>
+			{/await}
 		</tbody>
 		<!-- foot -->
 		<tfoot>
@@ -449,6 +151,7 @@
 				<th>Imię</th>
 				<th>Firma</th>
 				<th>Opis</th>
+				<th>Ocena</th>
 				<th />
 			</tr>
 		</tfoot>
