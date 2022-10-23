@@ -15,10 +15,12 @@
 				<div class="card-body">
 					<h2 class="card-title">{capitalizeFirst(category.name)}</h2>
 					{#if category.catchphrase}
-					<p>{category.catchphrase}</p>
+						<p>{category.catchphrase}</p>
 					{/if}
 					<div class="card-actions justify-end">
-						<a href="/services?category={category.name}"><button class="btn btn-primary">Przeglądaj oferty</button></a>
+						<a href="/services?category={category.name}"
+							><button class="btn btn-primary">Przeglądaj oferty</button></a
+						>
 					</div>
 				</div>
 			</div>

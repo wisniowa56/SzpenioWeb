@@ -1,10 +1,5 @@
-<script>
-	// @ts-nocheck
+<!-- TODO backend -->
 
-	import Navbar from "$lib/component/navbar.svelte";
-</script>
-
-<Navbar />
 <div class="flex overflow-x-auto w-full justify-center pt-20">
 	<table class="table max-w-[90%]">
 		<!-- head -->
@@ -120,7 +115,7 @@
 							width="600"
 							height="450"
 							style="border:0;"
-							allowfullscreen=""
+							allowfullscreen={false}
 							loading="lazy"
 							referrerpolicy="no-referrer-when-downgrade"
 						/>

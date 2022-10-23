@@ -4,9 +4,9 @@ import { validateCategory } from "$lib/utils";
 import { ValidCategories } from "$lib/constants";
 
 export const load: PageLoad<Data> = ({ url }) => {
-    const category = url.searchParams.get("category");
+	const category = url.searchParams.get("category");
 
-    return {
-        category: validateCategory(category) ?? ValidCategories[0].name
-    };
-}
+	return {
+		category: validateCategory(category) ?? ValidCategories[0].name
+	};
+};
