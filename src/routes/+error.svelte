@@ -9,7 +9,7 @@
 		>
 			HANDYMANS.PL
 		</a>
-		<img src="src\img\404Message.svg" class="max-w-xs" />
+		<img src="/img/404Message.svg" alt="404ErrorMessage" class="max-w-xs" />
 		<p>Przepraszamy, ale nie ma takiej strony.</p>
 		<a class="btn mt-5" href="/">Wróć na główną stronę</a>
 	</div>

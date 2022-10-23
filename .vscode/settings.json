@@ -1,5 +1,13 @@
 {
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 500,
-    "editor.formatOnSave": true
+	"files.autoSave": "afterDelay",
+	"files.autoSaveDelay": 500,
+	"editor.formatOnSave": true,
+	"workbench.tree.expandMode": "doubleClick",
+	"workbench.tree.indent": 16,
+	"workbench.tree.renderIndentGuides": "always",
+	"gitlens.views.repositories.includeWorkingTree": false,
+	"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+	"typescript.referencesCodeLens.enabled": true,
+	"problems.showCurrentInStatus": true,
+	"problems.autoReveal": true
 }

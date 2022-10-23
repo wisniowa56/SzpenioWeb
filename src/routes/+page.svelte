@@ -1,10 +1,3 @@
-<script>
-	// @ts-nocheck
-
-	import Navbar from "$lib/component/navbar.svelte";
-</script>
-
-<Navbar />
 <div class="hero h-screen bg-base-200 overscroll-contain">
 	<div class="hero-content text-center">
 		<div class="max-w-md">
