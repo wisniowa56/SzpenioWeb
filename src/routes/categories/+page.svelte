@@ -5,7 +5,7 @@
 
 <div class="hero min-h-screen bg-base-200 w-full pt-20 overflow-hidden">
 	<div
-		class="hero-content  mt-5 text-center self-center grid gap-4 md:grid-cols-2 lg:grid-cols-3  grid-rows-3 bg-base-200"
+		class="hero-content mt-5 text-center self-center grid gap-4 md:grid-cols-2 lg:grid-cols-3  grid-rows-3 bg-base-200"
 	>
 		{#each ValidCategories as category}
 			<div class="card w-96 bg-base-100 shadow-xl inline-block">
