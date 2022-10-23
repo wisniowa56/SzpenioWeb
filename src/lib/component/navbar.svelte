@@ -1,12 +1,13 @@
-<script>
-	let Logged = true;
+<script lang="ts">
+	import { goto } from "$app/navigation";
+	import { isAuthenticated, user } from "$lib/store";
+	import type { User } from "$lib/types";
 
-	function logOut() {
-		Logged = false;
-	}
-	function logIn() {
-		Logged = true;
-	}
+	let loggedIn = false;
+	isAuthenticated.subscribe((v) => (loggedIn = v));
+
+	let userObj: User | null = null;
+	user.subscribe((v) => (userObj = v));
 </script>
 
 <div
@@ -43,32 +44,40 @@
 			style="font-family: 'Montserrat Subrayada', sans-serif;">HANDYMANS.PL</a
 		>
 	</div>
-	{#if !Logged}
+	{#if !loggedIn}
 		<div class="navbar-end">
-			<a href="/Login"><button class="btn btn-ghost text-lg" on:click={logIn}>Zaloguj</button></a>
+			<a href="/login"
+				><button class="btn btn-ghost text-lg" on:click={() => goto("/login")}>Zaloguj</button></a
+			>
 		</div>
 	{:else}
 		<div class="navbar-end">
 			<div class="dropdown dropdown-end">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-				<label
-					tabindex="0"
-					class="btn btn-circle bg-neutral-focus text-neutral-content rounded-full w-12"
-				>
-					<span>LU</span>
-				</label>
-				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-				<ul
-					tabindex="0"
-					class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-				>
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<li><a href="/zlecenia">Moje zlecenia</a></li>
-					<li><a>Ustawienia</a></li>
-					<li><a href="/profile">Mój profil</a></li>
-					<li><button class="btn btn-neutral" on:click={logOut}>Wyloguj</button></li>
-				</ul>
+				{#if userObj}
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<label
+						tabindex="0"
+						class="btn btn-circle bg-neutral-focus text-neutral-content rounded-full w-12"
+					>
+						<span>{userObj.name.first.charAt(0)}{userObj.name.last.charAt(0)}</span>
+					</label>
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<ul
+						tabindex="0"
+						class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+					>
+						<!-- svelte-ignore a11y-missing-attribute -->
+						<li>
+							<a href={userObj.isProvider ? "/provider/0/services" : "/orders"}>Moje zlecenia</a>
+						</li>
+						<li><a href="/profile">Mój profil</a></li>
+						<li><a href="/settings">Ustawienia</a></li>
+						<li>
+							<button class="btn btn-neutral" on:click={() => goto("/logout")}>Wyloguj</button>
+						</li>
+					</ul>
+				{/if}
 			</div>
 		</div>
 	{/if}

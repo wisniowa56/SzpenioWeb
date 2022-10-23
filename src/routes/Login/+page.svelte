@@ -1,14 +1,37 @@
-<script>
-	let EmailAddress = "uzytkownik.zwykly@email.pl";
-	let Password = "haslo123";
-	let LoggedUser;
+<script lang="ts">
+	import { goto } from "$app/navigation";
+	import { isAuthenticated, user } from "$lib/store";
+
+	let emailAddress = "uzytkownik.zwykly@email.pl";
+	let password = "haslo123";
 
 	function SubmitLogin() {
-		if (EmailAddress == "uzytkownik.zwykly@email.pl" && Password == "haslo123") {
-			history.back();
-			return;
-		} else if (EmailAddress == "uzytkownik.uslugodawca@email.pl" && Password == "haslo123") {
-			history.back();
+		if (emailAddress == "uzytkownik.zwykly@email.pl" && password == "haslo123") {
+			isAuthenticated.set(true);
+			user.set({
+				id: 0,
+				name: {
+					first: "Jan",
+					last: "Kowalski"
+				},
+				username: "JohnnySilverhand2077",
+				email: emailAddress,
+				isProvider: false
+			});
+			goto("/"); // TODO go to profile overview
+		} else if (emailAddress == "uzytkownik.uslugodawca@email.pl" && password == "haslo123") {
+			isAuthenticated.set(true);
+			user.set({
+				id: 1,
+				name: {
+					first: "Adam",
+					last: "Daleki"
+				},
+				username: "Daleqi1",
+				email: emailAddress,
+				isProvider: true
+			});
+			goto("/"); // TODO go to provider overview
 		}
 	}
 </script>
@@ -25,6 +48,7 @@
 			HANDYMANS.PL
 		</a>
 		<div class="div-control w-full max-w-xs place-self-center">
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label">
 				<span class="label-text">Email</span>
 			</label>
@@ -32,11 +56,13 @@
 				type="email"
 				placeholder="email@email.pl"
 				class="input input-bordered w-full"
-				bind:value={EmailAddress}
+				bind:value={emailAddress}
 			/>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label" />
 		</div>
 		<div class="div-control w-full max-w-xs">
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label">
 				<span class="label-text">Hasło</span>
 			</label>
@@ -44,10 +70,12 @@
 				type="password"
 				placeholder="haslo123"
 				class="input input-bordered w-full max-w-xs"
-				bind:value={Password}
+				bind:value={password}
 			/>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label" />
 		</div>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<label
 			for="my-modal-6"
 			class="btn modal-button w-full max-w-xs"
@@ -56,6 +84,7 @@
 		>
 		<p>Nie masz jeszcze konta?</p>
 		<div class="tooltip" data-tip="Przepraszamy, ale obecnie nie ma możliwości rejestracji">
+			<!-- svelte-ignore a11y-missing-attribute -->
 			<a class="link link-primary link-hover" disabled>Zarejestruj się</a>
 		</div>
 	</div>

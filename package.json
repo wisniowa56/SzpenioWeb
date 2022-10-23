@@ -40,6 +40,7 @@
 	"type": "module",
 	"dependencies": {
 		"@auth0/auth0-spa-js": "^1.22.5",
+		"svelte-local-storage-store": "^0.3.1",
 		"uuid": "^9.0.0"
 	}
 }
