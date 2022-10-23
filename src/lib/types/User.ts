@@ -7,5 +7,5 @@ export default interface User {
 	};
 	avatarUrl: string | null;
 	email: string;
-	isProvider: boolean;
+	providerId: number | null;
 }

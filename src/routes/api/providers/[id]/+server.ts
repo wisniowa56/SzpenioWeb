@@ -1,4 +1,4 @@
-import { getProviders } from "$lib/server/db";
+import { getProviders } from "$lib/db";
 import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 

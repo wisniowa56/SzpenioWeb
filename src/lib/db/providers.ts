@@ -1,7 +1,7 @@
 import { DefaultProvider } from "$lib/constants";
-import type { Provider } from "../models";
+import type { Provider } from "$lib/types";
 
-let providers: Provider[] = [DefaultProvider];
+const providers: Provider[] = [DefaultProvider];
 
 export function getProviders(): Provider[] {
 	return providers;

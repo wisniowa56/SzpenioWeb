@@ -1,1 +1,1 @@
-export type { default as ServiceDto } from "./ServiceDto";
+export type { default as ServiceDto } from "./serviceDto";

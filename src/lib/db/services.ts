@@ -1,4 +1,4 @@
-import type Service from "$lib/server/models/service";
+import type { Service } from "$lib/types";
 import { DefaultProvider, DefaultUsers, ValidCategories } from "$lib/constants";
 
 let services: Service[] = [];

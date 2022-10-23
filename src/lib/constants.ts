@@ -1,5 +1,5 @@
 import type { Category, User } from "$lib/types";
-import type { Provider } from "./server/models";
+import type { Provider } from "./types";
 
 export const ValidCategories: Category[] = [
 	{
@@ -88,7 +88,7 @@ export const DefaultUsers: { normal: User; provider: User } = {
 			last: "Kowalski"
 		},
 		email: "uzytkownik@handymans.pl",
-		isProvider: false,
+		providerId: null,
 		avatarUrl: "https://placeimg.com/640/480/people"
 	},
 	provider: {
@@ -99,7 +99,7 @@ export const DefaultUsers: { normal: User; provider: User } = {
 			last: "Daleki"
 		},
 		email: "uslugodawca@handymans.pl",
-		isProvider: true,
+		providerId: 0,
 		avatarUrl: "https://placeimg.com/640/480/people"
 	}
 };

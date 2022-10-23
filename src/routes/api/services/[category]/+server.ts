@@ -1,6 +1,6 @@
 import type { ServiceDto } from "$lib/dtos";
-import { getProviders, getServices, getUsers } from "$lib/server/db";
-import type { Service } from "$lib/server/models";
+import { getProviders, getServices, getUsers } from "$lib/db";
+import type { Service } from "$lib/types";
 import { validateCategory } from "$lib/utils";
 import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";

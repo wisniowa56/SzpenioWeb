@@ -2,6 +2,8 @@
 	import { goto } from "$app/navigation";
 	import { isAuthenticated, user } from "$lib/store";
 	import { DefaultUsers } from "$lib/constants";
+	import { page } from "$app/stores";
+	import { isExternalUrl } from "$lib/utils";
 
 	if ($isAuthenticated) {
 		goto("/");
@@ -13,13 +15,15 @@
 		if (email === DefaultUsers.normal.email) {
 			$isAuthenticated = true;
 			$user = DefaultUsers.normal;
-			goto("/profile");
 		} else if (email === DefaultUsers.provider.email) {
 			$isAuthenticated = true;
 			$user = DefaultUsers.provider;
-			goto("/providers/@me");
 		} else {
 			modalStatus = true;
+		}
+
+		if ($isAuthenticated) {
+			goto("/");
 		}
 	}
 
@@ -27,6 +31,10 @@
 
 	$: modalStatus = false;
 </script>
+
+<svelte:head>
+	<title>Logowanie</title>
+</svelte:head>
 
 <div class="flex flex-col bg-base-200 h-screen justify-center items-center overflow-hidden">
 	<div

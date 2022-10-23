@@ -1,5 +1,9 @@
 <!-- TODO backend -->
 
+<svelte:head>
+	<title>Zamówienia</title>
+</svelte:head>
+
 <div class="flex overflow-x-auto w-full justify-center pt-20">
 	<table class="table max-w-[90%]">
 		<!-- head -->
@@ -100,7 +104,6 @@
 									/>
 								</div>
 							</div>
-							
 						</div>
 						<p class="mb-5">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit ipsum et
@@ -111,6 +114,7 @@
 							Mauris fringilla mauris dolor, id consequat metus gravida eget.
 						</p>
 						<iframe
+							title="Map"
 							class="rounded-lg w-full max-h-72 sm:max-h-max"
 							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2444.832380511147!2d21.00908893513443!3d52.21009350215986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471eccdc8873cc4d%3A0xe5a891bbaff71b66!2sWi%C5%9Bniowa%2056%2C%2002-520%20Warszawa!5e0!3m2!1spl!2spl!4v1666453508748!5m2!1spl!2spl"
 							width="600"
@@ -169,6 +173,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -215,6 +220,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -261,6 +267,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -306,6 +313,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -351,6 +359,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -396,6 +405,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>
@@ -441,6 +451,7 @@
 					</div></td
 				>
 				<th class="rounded-r-lg">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="btn btn-primary">Zobacz</label>
 				</th>
 			</tr>

@@ -14,3 +14,17 @@ export function validateCategory(category: string | null): string | null {
 	}
 	return null;
 }
+
+export function isExternalUrl(urlString: string) {
+	try {
+		const url = new URL(urlString);
+
+		if (url.origin !== new URL(document.URL, document.baseURI).origin) {
+			return true;
+		}
+	} catch (_e) {
+		new URL(urlString, document.baseURI);
+	}
+
+	return false;
+}

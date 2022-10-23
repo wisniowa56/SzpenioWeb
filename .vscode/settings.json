@@ -7,5 +7,7 @@
 	"workbench.tree.renderIndentGuides": "always",
 	"gitlens.views.repositories.includeWorkingTree": false,
 	"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-	"typescript.referencesCodeLens.enabled": true
+	"typescript.referencesCodeLens.enabled": true,
+	"problems.showCurrentInStatus": true,
+	"problems.autoReveal": true
 }

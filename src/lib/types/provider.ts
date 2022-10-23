@@ -16,7 +16,7 @@ export default interface Provider {
 				city: string;
 				region: string;
 				postalCode: string;
-			} | null;
+			};
 			coordinates: {
 				latitude: number;
 				longitude: number;

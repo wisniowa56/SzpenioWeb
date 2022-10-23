@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { isAuthenticated, user } from "$lib/store";
-	import type { User } from "$lib/types";
 
 	$: loggedIn = $isAuthenticated;
 	$: userObj = $user;
@@ -66,7 +65,7 @@
 					>
 						<!-- svelte-ignore a11y-missing-attribute -->
 						<li>
-							<a href={userObj.isProvider ? "/provider/0/services" : "/orders"}>Moje zlecenia</a>
+							<a href="/orders">Moje zlecenia</a>
 						</li>
 						<li><a href="/profile">Mój profil</a></li>
 						<li><a href="/settings">Ustawienia</a></li>
