@@ -5,8 +5,7 @@ export default interface User {
 		first: string;
 		last: string;
 	};
-
+	avatarUrl: string | null;
 	email: string;
-
 	isProvider: boolean;
 }

@@ -1,6 +1,8 @@
-import { getServices } from "$lib/server/db";
+import type { ServiceDto } from "$lib/dtos";
+import { getProviders, getServices, getUsers } from "$lib/server/db";
+import type { Service } from "$lib/server/models";
 import { validateCategory } from "$lib/utils";
-import { error } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = ({ params, url }) => {
@@ -30,7 +32,55 @@ export const GET: RequestHandler = ({ params, url }) => {
 
 	const requested = services
 		.filter((x) => x.category == normalizedCategory)
-		.slice(offset, offset + limit);
+		.slice(offset, offset + limit)
+		.map(mapFn);
 
-	return new Response(String(JSON.stringify(requested)));
+	return json(requested);
+};
+
+const mapFn = (x: Service): ServiceDto => {
+	const user = getUsers().find((u) => u.id === x.personId);
+	if (!user) {
+		throw error(500, {
+			message: "User with specified ID not found"
+		});
+	}
+
+	const provider = getProviders().find((p) => p.id === x.providerId);
+	if (!provider) {
+		throw error(500, {
+			message: "Provider with specified ID not found"
+		});
+	}
+
+	return {
+		id: x.id,
+		category: x.category,
+		description: x.description,
+		rating: x.rating,
+		person: {
+			id: x.personId,
+			avatarUrl: user.avatarUrl,
+			fullName: `${user.name.first} ${user.name.last}`,
+			position: provider.employees.find((e) => e.id === user.id)?.position ?? null
+		},
+		provider: {
+			id: x.providerId,
+			address: addressToString(provider.contact.location.address),
+			name: provider.name
+		}
+	};
+};
+
+const addressToString = (
+	address: {
+		firstLine: string;
+		city: string;
+	} | null
+): string | null => {
+	if (!address) {
+		return null;
+	}
+
+	return `${address.city}, ${address.firstLine}`;
 };

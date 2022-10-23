@@ -3,11 +3,8 @@
 	import { isAuthenticated, user } from "$lib/store";
 	import type { User } from "$lib/types";
 
-	let loggedIn = false;
-	isAuthenticated.subscribe((v) => (loggedIn = v));
-
-	let userObj: User | null = null;
-	user.subscribe((v) => (userObj = v));
+	$: loggedIn = $isAuthenticated;
+	$: userObj = $user;
 </script>
 
 <div

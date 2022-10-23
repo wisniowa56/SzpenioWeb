@@ -1,3 +1,6 @@
+import type { Category, User } from "$lib/types";
+import type { Provider } from "./server/models";
+
 export const ValidCategories: Category[] = [
 	{
 		name: "budowlanka",
@@ -76,8 +79,56 @@ export const ValidCategories: Category[] = [
 	}
 ];
 
-export interface Category {
-	name: string;
-	catchphrase: string | null;
-	thumbnailUrl: string | null;
-}
+export const DefaultUsers: { normal: User; provider: User } = {
+	normal: {
+		id: 0,
+		username: "JohnnySilverhand2077",
+		name: {
+			first: "Jan",
+			last: "Kowalski"
+		},
+		email: "uzytkownik@handymans.pl",
+		isProvider: false,
+		avatarUrl: "https://placeimg.com/640/480/people"
+	},
+	provider: {
+		id: 1,
+		username: "Daleqi1",
+		name: {
+			first: "Adam",
+			last: "Daleki"
+		},
+		email: "uslugodawca@handymans.pl",
+		isProvider: true,
+		avatarUrl: "https://placeimg.com/640/480/people"
+	}
+};
+
+export const DefaultProvider: Provider = {
+	id: 0,
+	managementIds: [DefaultUsers.provider.id],
+	employees: [
+		{
+			id: DefaultUsers.provider.id,
+			position: "Dyrektor"
+		}
+	],
+	name: "Janushex",
+	contact: {
+		email: "janushex@janushex.pl",
+		phoneNumber: "+48123456789",
+		location: {
+			address: {
+				city: "Warszawa",
+				firstLine: "ul. Wiśniowa 56",
+				region: "Mazowieckie",
+				secondLine: null,
+				postalCode: "02-520"
+			},
+			coordinates: {
+				latitude: 52.21024,
+				longitude: 21.014
+			}
+		}
+	}
+};

@@ -1,4 +1,4 @@
-<footer class="footer items-center p-4 bg-neutral text-neutral-content">
+<footer class="footer items-center p-4 bg-neutral text-neutral-content h-[4vh] relative bottom-0">
 	<div class="items-center grid-flow-col">
 		<p>Handymans © 2022 - Wszystkie prawa zastrzeżone</p>
 	</div>

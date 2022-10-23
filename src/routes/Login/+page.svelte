@@ -1,39 +1,31 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { isAuthenticated, user } from "$lib/store";
+	import { DefaultUsers } from "$lib/constants";
 
-	let emailAddress = "uzytkownik.zwykly@email.pl";
-	let password = "haslo123";
+	if ($isAuthenticated) {
+		goto("/");
+	}
+
+	let email = DefaultUsers.normal.email;
 
 	function SubmitLogin() {
-		if (emailAddress == "uzytkownik.zwykly@email.pl" && password == "haslo123") {
-			isAuthenticated.set(true);
-			user.set({
-				id: 0,
-				name: {
-					first: "Jan",
-					last: "Kowalski"
-				},
-				username: "JohnnySilverhand2077",
-				email: emailAddress,
-				isProvider: false
-			});
-			goto("/"); // TODO go to profile overview
-		} else if (emailAddress == "uzytkownik.uslugodawca@email.pl" && password == "haslo123") {
-			isAuthenticated.set(true);
-			user.set({
-				id: 1,
-				name: {
-					first: "Adam",
-					last: "Daleki"
-				},
-				username: "Daleqi1",
-				email: emailAddress,
-				isProvider: true
-			});
-			goto("/"); // TODO go to provider overview
+		if (email === DefaultUsers.normal.email) {
+			$isAuthenticated = true;
+			$user = DefaultUsers.normal;
+			goto("/profile");
+		} else if (email === DefaultUsers.provider.email) {
+			$isAuthenticated = true;
+			$user = DefaultUsers.provider;
+			goto("/providers/@me");
+		} else {
+			modalStatus = true;
 		}
 	}
+
+	const hideModal = () => (modalStatus = false);
+
+	$: modalStatus = false;
 </script>
 
 <div class="flex flex-col bg-base-200 h-screen justify-center items-center overflow-hidden">
@@ -54,9 +46,9 @@
 			</label>
 			<input
 				type="email"
-				placeholder="email@email.pl"
+				placeholder="ty@gdzies.pl"
 				class="input input-bordered w-full"
-				bind:value={emailAddress}
+				bind:value={email}
 			/>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label" />
@@ -66,22 +58,12 @@
 			<label class="label">
 				<span class="label-text">Hasło</span>
 			</label>
-			<input
-				type="password"
-				placeholder="haslo123"
-				class="input input-bordered w-full max-w-xs"
-				bind:value={password}
-			/>
+			<input type="password" placeholder="Hasło123!" class="input input-bordered w-full max-w-xs" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label" />
 		</div>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<label
-			for="my-modal-6"
-			class="btn modal-button w-full max-w-xs"
-			type="submit"
-			on:click={SubmitLogin}>Zaloguj</label
-		>
+		<button class="btn w-full max-w-xs" type="submit" on:click={SubmitLogin}>Zaloguj</button>
 		<p>Nie masz jeszcze konta?</p>
 		<div class="tooltip" data-tip="Przepraszamy, ale obecnie nie ma możliwości rejestracji">
 			<!-- svelte-ignore a11y-missing-attribute -->
@@ -89,18 +71,21 @@
 		</div>
 	</div>
 
-	<input type="checkbox" id="my-modal-6" class="modal-toggle" />
-	<div class="modal modal-bottom sm:modal-middle bg-black/40">
+	<div class="modal modal-bottom sm:modal-middle bg-black/40 {modalStatus ? 'modal-open' : ''}">
 		<div class="modal-box">
 			<h3 class="font-bold text-lg">Niepoprawny login lub hasło</h3>
 			<p class="py-4">
 				Na razie prosimy o zalogowanie jako zwykły użytkownik pod emailem: <br />
 			</p>
-			<b>uzytkownik.zwykly@email.pl, hasło: haslo123</b>
-			<br />Lub jako usługodawca pod emailem:<br />
-			<b>uzytkownik.uslugodawca@email.pl, hasło: haslo123</b>
+			<b>{DefaultUsers.normal.email}</b>
+			<br />
+			Lub jako usługodawca pod emailem:
+			<br />
+			<b>{DefaultUsers.provider.email}</b>
+			<hr />
+			<u>Wpisane hasło nie ma znaczenia</u>
 			<div class="modal-action">
-				<label for="my-modal-6" class="btn">Ok</label>
+				<button class="btn" on:click={hideModal}>Ok</button>
 			</div>
 		</div>
 	</div>

@@ -4,7 +4,7 @@
 </script>
 
 <Navbar />
-<div class="px-5">
+<div class="px-5 min-h-[96vh]">
 	<slot />
 </div>
 <Footer />

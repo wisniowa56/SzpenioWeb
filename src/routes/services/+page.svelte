@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ValidCategories } from "$lib/constants";
-	import type Service from "$lib/server/models/service";
+	import type { ServiceDto } from "$lib/dtos";
 	import { capitalizeFirst } from "$lib/utils";
 	import type { PageData } from "./$types";
 
@@ -12,8 +12,13 @@
 		chosenCategory = c;
 	};
 
-	const getData = async (category: string): Promise<Service[]> => {
+	const getData = async (category: string): Promise<ServiceDto[]> => {
 		const response = await fetch(`/api/services/${category}`);
+
+		if (!response.ok) {
+			return [];
+		}
+
 		const result = await response.json();
 		return result;
 	};
@@ -87,24 +92,20 @@
 							<div class="flex items-center space-x-3">
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
-										<img src={service.avatarUrl} alt="UserImage" />
+										<img src={service.person.avatarUrl} alt="UserImage" />
 									</div>
 								</div>
 								<div>
-									<div class="font-bold">{service.personName}</div>
-									<span class="badge badge-ghost badge-sm">{service.personPosition}</span>
+									<div class="font-bold">{service.person.fullName}</div>
+									<span class="badge badge-ghost badge-sm">{service.person.position}</span>
 								</div>
 							</div>
 						</td>
 						<td>
-							{#if service.companyName}
-								{service.companyName}
-								{#if service.companyAddress}
-									<br />
-									<div class="text-sm opacity-50">{service.companyAddress}</div>
-								{/if}
-							{:else}
-								<p>Osoba fizyczna</p>
+							{service.provider.name}
+							{#if service.provider.address}
+								<br />
+								<div class="text-sm opacity-50">{service.provider.address}</div>
 							{/if}
 						</td>
 						<td class="text-justify truncate max-w-md break-normal">{service.description}</td>
@@ -149,7 +150,7 @@
 		<!-- foot -->
 		<tfoot>
 			<tr class="text-center">
-				<th>Imię</th>
+				<th>Osoba</th>
 				<th>Firma</th>
 				<th>Opis</th>
 				<th>Ocena</th>

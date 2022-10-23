@@ -1,11 +1,8 @@
 export default interface Service {
-	id: string;
+	id: number;
 	category: string;
-	avatarUrl: string;
-	personName: string;
-	personPosition: string;
-	companyName: string | null;
-	companyAddress: string | null;
+	personId: number;
+	providerId: number;
 	description: string;
 	rating: number;
 }
