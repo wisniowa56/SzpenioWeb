@@ -1,0 +1,7 @@
+.svelte-kit/
+.vscode/
+node_modules/
+.dockerignore
+Dockerfile
+README.md
+pnpm-lock.yaml
