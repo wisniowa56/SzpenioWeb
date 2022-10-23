@@ -104,7 +104,6 @@
 				>
 					<!-- svelte-ignore a11y-missing-attribute -->
 					<li><a href="/zlecenia">Moje zlecenia</a></li>
-					<li><a>Ustawienia</a></li>
 					<li><a href="/profile">Mój profil</a></li>
 					<li><button class="btn btn-neutral" on:click={logOut}>Wyloguj</button></li>
 				</ul>
